@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Book Catalogue</title>
+    </head>
+    <body>
+        <h2>Saved Books</h2>
+        {% if error %}<p class="error"><strong>Error:</strong>{{ error }}</p>{% endif %}
+        {% if books %}
+        <table>
+            <thead>Books</thead>
+            <tbody>
+                <tr>
+                    <th>Thumbnail</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Page Count</th>
+                    <th>Average Rating</th>
+                </tr>
+                {% for book in books %}
+                <tr>
+                    <td><img src={{ book.thumbnail }}></td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.page_count }}</td>
+                    <td>{{ book.average_rating }}</td>
+                    <td><a href={{ url_for('delete_book', title=book.title, author=book.author, pageCount=book.page_count, averageRating=book.average_rating, thumbnail=book.thumbnail) }}>Delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>There are no saved books.</p>
+        {% endif %}
+        <a href="/searchbooks">Search Books</a>
+    </body>
+</html>

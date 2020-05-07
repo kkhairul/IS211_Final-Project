@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Search Books</title>
+    </head>
+    <body>
+        <h2>Search Books</h2>
+        {% if error %}<p class="error"><strong>Error:</strong>{{ error }}</p>{% endif %}
+        <form action="/searchbooks" method="post">
+            ISBN #:
+            <input type="text" name="isbnnumber">
+            <input type="submit" value="Search">
+        </form>
+        <form action="/searchbooksbytitle" method="post">
+            Title:
+            <input type="text" name="searchtitle">
+            <input type="submit" value="Search">
+        </form>
+        {% if searchresults %}
+        <br>
+        <table>
+            <thead>Results</thead>
+            <tbody>
+                <tr>
+                    <th>Thumbnail</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Page Count</th>
+                    <th>Average Rating</th>
+                    <th></th>
+                </tr>
+                {% for result in searchresults %}
+                <tr>
+                    <td><img src={{ result.thumbnail }}></td>
+                    <td>{{ result.title }}</td>
+                    <td>{{ result.author }}</td>
+                    <td>{{ result.pageCount }}</td>
+                    <td>{{ result.averageRating }}</td>
+                    <td><a href={{ url_for('add_book', title=result.title, author=result.author, pageCount=result.pageCount, averageRating=result.averageRating, thumbnail=result.thumbnail) }}>Add</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </body>
+</html>
